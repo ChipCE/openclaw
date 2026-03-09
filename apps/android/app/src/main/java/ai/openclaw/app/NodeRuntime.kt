@@ -351,6 +351,7 @@ class NodeRuntime(context: Context) {
           voiceReplySpeaker.speakAssistantReply(text)
         }
       },
+      languageOverride = { prefs.languageOverride.value },
     )
   }
 
@@ -631,7 +632,15 @@ class NodeRuntime(context: Context) {
   }
 
   fun setLanguageOverride(value: String) {
-    prefs.setLanguageOverride(value)
+    val old = prefs.languageOverride.value
+    val trimmed = value.trim()
+    if (old != trimmed) {
+      Log.d("NodeRuntime", "Language override changed from '$old' to '$trimmed', triggering gateway reconnect")
+      prefs.setLanguageOverride(trimmed)
+      if (operatorConnected) {
+        refreshGatewayConnection()
+      }
+    }
   }
 
   fun setPreventSleep(value: Boolean) {

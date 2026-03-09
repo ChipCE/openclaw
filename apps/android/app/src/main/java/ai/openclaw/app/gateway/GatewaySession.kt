@@ -386,6 +386,7 @@ class GatewaySession(
     ): JsonObject {
       val client = options.client
       val locale = options.locale ?: Locale.getDefault().toLanguageTag()
+      android.util.Log.d("GatewaySession+", "Building gateway connection payload with locale: $locale")
       val clientObj =
         buildJsonObject {
           put("id", JsonPrimitive(client.id))

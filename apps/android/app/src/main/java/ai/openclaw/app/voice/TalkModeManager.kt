@@ -521,7 +521,11 @@ class TalkModeManager(
         putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, 1800L)
         val localeOverride = languageOverride().trim()
         if (localeOverride.isNotEmpty() && localeOverride != "auto") {
+          android.util.Log.d(tag, "SpeechRecognizer Intent explicitly setting EXTRA_LANGUAGE=$localeOverride")
           putExtra(RecognizerIntent.EXTRA_LANGUAGE, localeOverride)
+          putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, localeOverride)
+          putExtra(RecognizerIntent.EXTRA_ONLY_RETURN_LANGUAGE_PREFERENCE, true)
+          putExtra("android.speech.extra.EXTRA_ADDITIONAL_LANGUAGES", arrayOf(localeOverride))
         }
       }
 
@@ -1616,7 +1620,10 @@ class TalkModeManager(
         request.outputFormat?.takeIf { it.isNotEmpty() }?.let { put("output_format", JsonPrimitive(it)) }
         request.seed?.let { put("seed", JsonPrimitive(it)) }
         request.normalize?.let { put("apply_text_normalization", JsonPrimitive(it)) }
-        request.language?.let { put("language_code", JsonPrimitive(it)) }
+        request.language?.let { 
+          android.util.Log.d(tag, "ElevenLabs TTS request transmitting with language_code=$it")
+          put("language_code", JsonPrimitive(it)) 
+        }
         if (voiceSettingsEntries.isNotEmpty()) {
           put("voice_settings", voiceSettingsEntries)
         }
