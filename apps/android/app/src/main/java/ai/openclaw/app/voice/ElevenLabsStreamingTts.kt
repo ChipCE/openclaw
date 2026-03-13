@@ -39,7 +39,7 @@ class ElevenLabsStreamingTts(
 ) {
   companion object {
     private const val TAG = "ElevenLabsStreamTTS"
-    private const val BASE_URL = "wss://api.elevenlabs.io/v1/text-to-speech"
+    private const val BASE_URL = "ws://magineko:8880/v1/text-to-speech"
 
     /** Models that support WebSocket input streaming */
     val STREAMING_MODELS = setOf(

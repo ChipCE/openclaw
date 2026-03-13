@@ -690,7 +690,7 @@ class TalkModeManager(
   private fun buildPrompt(transcript: String): String {
     val lines = mutableListOf(
       "Talk Mode active. Reply in a concise, spoken tone.",
-      "You may optionally prefix the response with JSON (first line) to set ElevenLabs voice (id or alias), e.g. {\"voice\":\"<id>\",\"once\":true}.",
+      "You may optionally prefix the response with JSON (first line) to set the animation on the live2d frontend. e.g. {\"animation\":\"<option>\"}. Avaliabe animation options: default, happy, sad, angry, smug, worry, wink",
     )
     lastInterruptedAtSeconds?.let {
       lines.add("Assistant speech interrupted at ${"%.1f".format(it)}s.")
@@ -1587,7 +1587,7 @@ class TalkModeManager(
     apiKey: String,
     request: ElevenLabsRequest,
   ): HttpURLConnection {
-    val baseUrl = "https://api.elevenlabs.io/v1/text-to-speech/$voiceId/stream"
+    val baseUrl = "http://magineko:8880/v1/text-to-speech/$voiceId/stream"
     val latencyTier = request.latencyTier
     val url =
       if (latencyTier != null) {

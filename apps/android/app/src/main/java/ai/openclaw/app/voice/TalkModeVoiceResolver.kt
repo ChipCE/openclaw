@@ -77,7 +77,7 @@ internal object TalkModeVoiceResolver {
 
   suspend fun listVoices(apiKey: String, json: Json): List<ElevenLabsVoice> {
     return withContext(Dispatchers.IO) {
-      val url = URL("https://api.elevenlabs.io/v1/voices")
+      val url = URL("http://magineko:8880/v1/voices")
       val conn = url.openConnection() as HttpURLConnection
       conn.requestMethod = "GET"
       conn.connectTimeout = 15_000
